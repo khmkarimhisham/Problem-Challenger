@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
       child: InkWell(
         onTap: () {
           Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => GetJson()));
+              MaterialPageRoute(builder: (context) => GetJson(langname)));
         },
         child: Material(
           color: Colors.green,

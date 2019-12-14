@@ -7,10 +7,29 @@ import 'package:problem_challenger/home.dart';
 import 'package:problem_challenger/resultpage.dart';
 
 class GetJson extends StatelessWidget {
+
+  String langname;
+  GetJson(this.langname);
+  String assettoload;
+
+  setasset() {
+    if (langname == "Python") {
+      assettoload = "assets/python.json";
+    } else if (langname == "Java") {
+      assettoload = "assets/java.json";
+    } else if (langname == "JavaScript") {
+      assettoload = "assets/js.json";
+    } else if (langname == "C++") {
+      assettoload = "assets/cpp.json";
+    } else {
+      assettoload = "assets/linux.json";
+    }
+  }
   @override
   Widget build(BuildContext context) {
+        setasset();
     return FutureBuilder(
-      future: DefaultAssetBundle.of(context).loadString("assets/python.json"),
+      future: DefaultAssetBundle.of(context).loadString(assettoload, cache: true),
       builder: (context, snapshot) {
         List mydata = json.decode(snapshot.data.toString());
         if (mydata == null) {
@@ -85,7 +104,7 @@ class _QuizPageState extends State<QuizPage> {
     cancelTimer = false;
     timer = 30;
     setState(() {
-      if (i < 5) {
+      if (i < 10) {
         i++;
       } else {
         Navigator.of(context).pushReplacement(
