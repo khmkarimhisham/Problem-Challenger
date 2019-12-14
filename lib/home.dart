@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:problem_challenger/quizpage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,6 +20,10 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => GetJson()));
+        },
         child: Material(
           color: Colors.green,
           elevation: 10.0,
@@ -62,6 +68,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(

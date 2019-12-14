@@ -57,7 +57,7 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Quando.ttf
+    - family: Quando
       fonts:
         - asset: fonts/Quando.ttf
     - family: Satisfy
