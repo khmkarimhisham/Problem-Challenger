@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -39,13 +40,54 @@ class _QuizPageState extends State<QuizPage> {
   Color wrong = Colors.red;
   int marks = 0;
   int i = 1;
-
+  int timer = 30;
+  String showTimer = "30";
   Map<String, Color> btncolor = {
     "a": Colors.green,
     "b": Colors.green,
     "c": Colors.green,
     "d": Colors.green,
   };
+  bool cancelTimer = false;
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  void startTimer() async {
+    const onesec = Duration(seconds: 1);
+    Timer.periodic(onesec, (Timer t) {
+      setState(() {
+        if (timer < 1) {
+          t.cancel();
+          nextQuestion();
+
+        }else if(cancelTimer == true){
+          t.cancel();
+        }else {
+          timer = timer - 1;
+        }
+        showTimer = timer.toString();
+      });
+    });
+  }
+
+  void nextQuestion() {
+    cancelTimer = false;
+    timer = 30;
+    setState(() {
+      if (i < 5) {
+        i++;
+      } else {}
+      btncolor["a"] = Colors.green;
+      btncolor["b"] = Colors.green;
+      btncolor["c"] = Colors.green;
+      btncolor["d"] = Colors.green;
+    });
+    startTimer();
+  }
 
   void checkAnswer(String k) {
     if (mydata[2]["1"] == mydata[1]["1"][k]) {
@@ -56,7 +98,9 @@ class _QuizPageState extends State<QuizPage> {
     }
     setState(() {
       btncolor[k] = colortoshow;
+      cancelTimer = true;
     });
+    Timer(Duration(seconds: 1), nextQuestion);
   }
 
   Widget choiceButton(String k) {
@@ -146,7 +190,7 @@ class _QuizPageState extends State<QuizPage> {
               flex: 1,
               child: Container(
                 child: Text(
-                  "30",
+                  showTimer,
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.w700,
