@@ -11,9 +11,10 @@ class _HomePageState extends State<HomePage> {
     "images/python_img.png",
     "images/java_img.png",
     "images/c++_img.png",
+    "images/js_img.png",
   ];
 
-  Widget customcard(String langname, String image, String description) {
+  Widget customcard(String langname, String image) {
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: InkWell(
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 10.0,
           borderRadius: BorderRadius.circular(10.0),
           child: Container(
+            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
             child: Column(
               children: <Widget>[
                 Padding(
@@ -33,10 +35,8 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.green,
                       height: 150.0,
                       width: 150.0,
-                      child: ClipOval(
-                        child: Image(
-                          image: AssetImage(image),
-                        ),
+                      child: Image(
+                        image: AssetImage(image),
                       ),
                     ),
                   ),
@@ -52,19 +52,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                      fontFamily: "Alike",
-                    ),
-                    maxLines: 5,
-                    textAlign: TextAlign.justify,
-                  ),
-                )
               ],
             ),
           ),
@@ -83,9 +70,10 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         children: <Widget>[
-          customcard("Python", images[0], "description"),
-          customcard("Java", images[1], "description"),
-          customcard("C++", images[2], "description"),
+          customcard("Python", images[0]),
+          customcard("Java", images[1]),
+          customcard("C++", images[2]),
+          customcard("JavaScript", images[3]),
         ],
       ),
     );
