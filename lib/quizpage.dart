@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:problem_challenger/home.dart';
+import 'package:problem_challenger/resultpage.dart';
 
 class GetJson extends StatelessWidget {
   @override
@@ -56,6 +57,13 @@ class _QuizPageState extends State<QuizPage> {
     super.initState();
   }
 
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   void startTimer() async {
     const onesec = Duration(seconds: 1);
     Timer.periodic(onesec, (Timer t) {
@@ -63,10 +71,9 @@ class _QuizPageState extends State<QuizPage> {
         if (timer < 1) {
           t.cancel();
           nextQuestion();
-
-        }else if(cancelTimer == true){
+        } else if (cancelTimer == true) {
           t.cancel();
-        }else {
+        } else {
           timer = timer - 1;
         }
         showTimer = timer.toString();
@@ -80,7 +87,10 @@ class _QuizPageState extends State<QuizPage> {
     setState(() {
       if (i < 5) {
         i++;
-      } else {}
+      } else {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ResultPage(marks: marks)));
+      }
       btncolor["a"] = Colors.green;
       btncolor["b"] = Colors.green;
       btncolor["c"] = Colors.green;
@@ -90,7 +100,7 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void checkAnswer(String k) {
-    if (mydata[2]["1"] == mydata[1]["1"][k]) {
+    if (mydata[2][i.toString()] == mydata[1][i.toString()][k]) {
       marks = marks + 5;
       colortoshow = right;
     } else {

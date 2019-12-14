@@ -9,6 +9,29 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  List<String> images = [
+    "images/success.png",
+    "images/good.png",
+    "images/bad.png",
+  ];
+
+  String image;
+  String message;
+  @override
+  void initState() {
+    if (marks < 15) {
+      image = images[2];
+      message = "You Should Try Harder..\nYou Scored $marks";
+    } else if (marks < 25) {
+      image = images[1];
+      message = "You Can Do Better..\nYou Scored $marks";
+    } else {
+      image = images[0];
+      message = "You Did Very Well..\nYou Scored $marks";
+    }
+    super.initState();
+  }
+
   int marks;
   _ResultPageState(this.marks);
   @override
@@ -22,27 +45,31 @@ class _ResultPageState extends State<ResultPage> {
         children: <Widget>[
           Expanded(
               flex: 7,
-              child: Column(
-                children: <Widget>[
-                  Material(
-                    child: Container(
-                      child: ClipRect(
-                        child: Image(
-                          image: AssetImage("images/result.png"),
+              child: Material(
+                child: Container(
+                    child: Column(
+                  children: <Widget>[
+                    Material(
+                      child: Container(
+                        child: ClipRect(
+                          child: Image(
+                            image: AssetImage(image),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Center(
-                    child: Text(
-                      "Congratulations You Scored $marks Marks",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: "Quando",
+                    Center(
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20.0,
+                          fontFamily: "Quando",
+                        ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                )),
               )),
           Expanded(
             flex: 3,
