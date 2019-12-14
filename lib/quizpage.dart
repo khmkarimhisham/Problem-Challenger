@@ -10,13 +10,13 @@ class GetJson extends StatelessWidget {
     return FutureBuilder(
       future: DefaultAssetBundle.of(context).loadString("assets/python.json"),
       builder: (context, snapshot) {
-        var mydata = json.decode(snapshot.data.toString());
+        List mydata = json.decode(snapshot.data.toString());
         if (mydata == null) {
           return Scaffold(
             body: Text("loading"),
           );
         } else {
-          return QuizPage();
+          return QuizPage(mydata: mydata);
         }
       },
     );
@@ -24,18 +24,48 @@ class GetJson extends StatelessWidget {
 }
 
 class QuizPage extends StatefulWidget {
+  final mydata;
+  QuizPage({Key key, @required this.mydata}) : super(key: key);
   @override
-  _QuizPageState createState() => _QuizPageState();
+  _QuizPageState createState() => _QuizPageState(mydata);
 }
 
 class _QuizPageState extends State<QuizPage> {
-  Widget choiceButton() {
+  var mydata;
+  _QuizPageState(this.mydata);
+
+  Color colortoshow = Colors.green;
+  Color right = Colors.blue;
+  Color wrong = Colors.red;
+  int marks = 0;
+  int i = 1;
+
+  Map<String, Color> btncolor = {
+    "a": Colors.green,
+    "b": Colors.green,
+    "c": Colors.green,
+    "d": Colors.green,
+  };
+
+  void checkAnswer(String k) {
+    if (mydata[2]["1"] == mydata[1]["1"][k]) {
+      marks = marks + 5;
+      colortoshow = right;
+    } else {
+      colortoshow = wrong;
+    }
+    setState(() {
+      btncolor[k] = colortoshow;
+    });
+  }
+
+  Widget choiceButton(String k) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () => checkAnswer(k),
         child: Text(
-          "option1",
+          mydata[1][i.toString()][k],
           maxLines: 1,
           style: TextStyle(
             color: Colors.white,
@@ -43,7 +73,7 @@ class _QuizPageState extends State<QuizPage> {
             fontFamily: "Alike",
           ),
         ),
-        color: Colors.green,
+        color: btncolor[k],
         splashColor: Colors.green[900],
         highlightColor: Colors.green[900],
         minWidth: 200,
@@ -90,7 +120,7 @@ class _QuizPageState extends State<QuizPage> {
                 padding: EdgeInsets.all(15.0),
                 alignment: Alignment.bottomLeft,
                 child: Text(
-                  "data data data data data data data data data ",
+                  mydata[0][i.toString()],
                   style: TextStyle(
                     fontSize: 16.0,
                     fontFamily: "Quando",
@@ -104,10 +134,10 @@ class _QuizPageState extends State<QuizPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    choiceButton(),
-                    choiceButton(),
-                    choiceButton(),
-                    choiceButton(),
+                    choiceButton('a'),
+                    choiceButton('b'),
+                    choiceButton('c'),
+                    choiceButton('d'),
                   ],
                 ),
               ),
